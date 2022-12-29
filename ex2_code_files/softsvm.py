@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 
 def softsvm(l, trainX: np.array, trainy: np.array):
     """
-
     :param l: the parameter lambda of the soft SVM algorithm
     :param trainX: numpy array of size (m, d) containing the training sample
     :param trainy: numpy array of size (m, 1) containing the labels of the training sample
@@ -35,7 +34,8 @@ def softsvm(l, trainX: np.array, trainy: np.array):
         X[r] = trainy[r] * X[r]
     XZ = np.vstack([X, Z])
     A = np.hstack([XZ, eyes])
-
+    cvxopt.solvers.options['show_progress'] = False
+    cvxopt.solvers.options['feastol'] = 1e-6
     sol = cvxopt.solvers.qp(matrix(H), matrix(u), matrix(-A), matrix(-v))
     return np.array(sol["x"])[:d]
 
@@ -131,7 +131,6 @@ def Q2a():
     plt.title("Q2b")
     plt.xlabel("lambda")
     plt.ylabel("error rate")
-
 
 
     sample_size = 1000
